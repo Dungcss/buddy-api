@@ -20,3 +20,7 @@ npm test          # toàn bộ ca kiểm thử
 ## Kiểm tra giao diện
 
 Sau khi sửa CSS hoặc trang, kiểm ở 1440, 768 và 390 px: không tràn ngang, không lỗi console, mọi nút bấm được.
+
+## Giấy phép đóng góp
+
+Khi gửi thay đổi, bạn đồng ý phát hành phần đóng góp đó theo giấy phép MIT của repo này.
