@@ -234,4 +234,4 @@ Nếu không đặt biến, adapter tự tìm: cạnh package, đi ngược các
 
 Mã nguồn trong repo này theo giấy phép **MIT** — xem `LICENSE`. Bạn được dùng, sửa, phân phối lại và bán bản sao, miễn giữ nguyên dòng bản quyền và giấy phép.
 
-Helper `dsh-workbuddy-connect` và hai peer `@deepseek-ai/*` là bên thứ ba, giữ giấy phép gốc của chúng; giấy phép MIT ở đây không áp lên các gói đó.
+Helper `dsh-workbuddy-connect` và hai peer `@deepseek-ai/*` là bên thứ ba, giữ giấy phép gốc của chúng; giấy phép MIT ở đây không áp lên các gói đó. Chi tiết ở `THIRD_PARTY_NOTICES.md`.
