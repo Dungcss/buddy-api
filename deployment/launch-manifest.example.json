@@ -1,0 +1,21 @@
+{
+  "_comment": "Copy to launch-manifest.json and replace every hash with the SHA-256 of the file in your checkout. The launcher refuses to start when a pinned file changed.",
+  "serviceRoot": "C:\\path\\to\\buddy-api",
+  "hostname": "api.example.com",
+  "port": 3190,
+  "localVerified": true,
+  "tunnelName": "buddy-api",
+  "tunnelId": "00000000-0000-0000-0000-000000000000",
+  "serverSha256": "REPLACE",
+  "apiKeysSha256": "REPLACE",
+  "usageSha256": "REPLACE",
+  "protocolHashes": {
+    "protocol-common.mjs": "REPLACE",
+    "messages.mjs": "REPLACE",
+    "responses.mjs": "REPLACE"
+  },
+  "adapterSha256": "REPLACE",
+  "configSha256": "REPLACE",
+  "tunnelConfigSha256": "REPLACE",
+  "supervisorSha256": "REPLACE"
+}

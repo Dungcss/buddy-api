@@ -1,0 +1,35 @@
+# Secrets: keys, tunnel credentials, account snapshots. Never commit these.
+secrets/
+data/
+.env
+.env.local
+
+# Deployment-specific files. Each machine has its own tunnel id, hostname and
+# pinned hashes; the *.example.json files show the shape.
+config.json
+cloudflared.yml
+deployment/launch-manifest.json
+USAGE.txt
+deployment/PLAN.txt
+
+# Runtime state and logs.
+run/
+logs/
+*.log
+
+# Editor and OS noise.
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Node.
+node_modules/
+npm-debug.log*
+
+# Local build output that must be regenerated, not reviewed.
+dashboard/public/*.html
+dashboard/release.json
+
+# Local verification records contain host paths and account addresses.
+verification*.json

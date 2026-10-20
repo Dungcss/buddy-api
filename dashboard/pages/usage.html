@@ -1,0 +1,153 @@
+<div class="page-head">
+  <div>
+    <h2>Dữ liệu sử dụng token</h2>
+    <p>Chỉ lấy từ <code>usage</code> do upstream trả về cho từng request. Trường upstream không gửi hiển thị “Không có dữ liệu”, khác với số 0.</p>
+  </div>
+  <div class="spacer"></div>
+  <div class="chips">
+    <span class="chip" id="usageUpdated">đang đọc…</span>
+    <span class="chip" id="usageTz">Asia/Saigon (UTC+07:00)</span>
+  </div>
+</div>
+
+<section class="card">
+  <div class="card-body">
+    <form id="usageFilter" class="filter-bar">
+      <div class="field">
+        <label for="usageFrom">Từ (giờ Việt Nam)</label>
+        <input id="usageFrom" name="from" type="datetime-local" step="60">
+      </div>
+      <div class="field">
+        <label for="usageTo">Đến (giờ Việt Nam)</label>
+        <input id="usageTo" name="to" type="datetime-local" step="60">
+      </div>
+      <div class="field">
+        <label for="usageAccount">Tài khoản</label>
+        <select id="usageAccount" name="account"><option value="">Tất cả</option></select>
+      </div>
+      <div class="field">
+        <label for="usageModel">Model</label>
+        <select id="usageModel" name="model"><option value="">Tất cả</option></select>
+      </div>
+      <div class="field wide">
+        <span class="field-label">Phạm vi</span>
+        <label class="chip" style="height:36px;justify-content:center">
+          <input id="usageAll" type="checkbox" style="width:auto"> Mọi endpoint
+        </label>
+      </div>
+      <div class="filter-actions">
+        <button type="submit">Áp dụng</button>
+        <button type="button" class="secondary" id="usageToday">Hôm nay</button>
+        <button type="button" class="secondary" id="usage7d">7 ngày</button>
+        <button type="button" class="secondary" id="usage30d">30 ngày</button>
+      </div>
+    </form>
+    <div class="chips" id="usageAppliedChips" style="margin-top:12px"></div>
+  </div>
+</section>
+
+<div class="tiles" style="margin-top:18px">
+  <div class="tile accent">
+    <span class="tile-label">Input tokens</span>
+    <span class="tile-value" id="uInput">–</span>
+    <span class="tile-sub" id="uInputSub">—</span>
+  </div>
+  <div class="tile">
+    <span class="tile-label">Output tokens</span>
+    <span class="tile-value" id="uOutput">–</span>
+    <span class="tile-sub" id="uOutputSub">—</span>
+  </div>
+  <div class="tile">
+    <span class="tile-label">Cache write tokens</span>
+    <span class="tile-value" id="uCacheWrite">–</span>
+    <span class="tile-sub" id="uCacheWriteSub">—</span>
+  </div>
+  <div class="tile">
+    <span class="tile-label">Cache read tokens</span>
+    <span class="tile-value" id="uCacheRead">–</span>
+    <span class="tile-sub" id="uCacheReadSub">—</span>
+  </div>
+</div>
+
+<section class="card">
+  <div class="card-head">
+    <h3>Đối chiếu tổng hợp</h3>
+    <span class="spacer"></span>
+    <span class="chip" id="usageRequests">–</span>
+    <span class="chip warn" id="usageMissing">–</span>
+  </div>
+  <div class="card-body">
+    <p class="caption" id="usageTotals" style="margin-top:0">—</p>
+    <div id="usageSemantics" class="warnings" style="margin:12px 0 0"></div>
+    <div class="split" style="margin-top:14px">
+      <div>
+        <h4 class="field-label" style="margin:0 0 8px">Theo tài khoản</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th scope="col">Tài khoản</th><th scope="col" class="right">Request</th>
+              <th scope="col" class="right">Có usage</th><th scope="col" class="right">Input</th>
+              <th scope="col" class="right">Output</th><th scope="col" class="right">CW</th>
+              <th scope="col" class="right">CR</th>
+            </tr></thead>
+            <tbody id="usageByAccount"></tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h4 class="field-label" style="margin:0 0 8px">Theo model</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th scope="col">Model</th><th scope="col" class="right">Request</th>
+              <th scope="col" class="right">Có usage</th><th scope="col" class="right">Input</th>
+              <th scope="col" class="right">Output</th><th scope="col" class="right">CW</th>
+              <th scope="col" class="right">CR</th>
+            </tr></thead>
+            <tbody id="usageByModel"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="card-head">
+    <h3>Từng request</h3>
+    <span class="spacer"></span>
+    <span class="chip" id="usageDetailCount">–</span>
+  </div>
+  <p class="caption" style="padding:0 16px 10px;margin:0">Thời gian theo giờ Việt Nam (UTC+07:00). Dòng “Không có dữ liệu” là request upstream không trả usage, không phải số 0. Retry là số lần gọi lại sau lần đầu.</p>
+  <div class="table-wrap detail-scroll">
+    <table class="usage-detail">
+      <thead><tr>
+        <th scope="col" title="Thời gian (giờ Việt Nam)">Thời gian</th>
+        <th scope="col" title="Tài khoản">Tài khoản</th>
+        <th scope="col" title="Model">Model</th>
+        <th scope="col" class="right" title="Trạng thái HTTP">HTTP</th>
+        <th scope="col" class="right" title="Số lần retry sau lần gọi đầu">Retry</th>
+        <th scope="col" class="right" title="Input tokens (đã gồm cache read)">Input</th>
+        <th scope="col" class="right" title="Output tokens">Output</th>
+        <th scope="col" class="right" title="Cache write tokens">CW</th>
+        <th scope="col" class="right" title="Cache read tokens">CR</th>
+      </tr></thead>
+      <tbody id="usageRows"></tbody>
+    </table>
+    <p class="empty" id="usageEmpty" hidden>Không có request nào trong khoảng đã chọn.</p>
+  </div>
+  <div class="pager" id="usagePager" hidden></div>
+</section>
+
+<section class="card">
+  <div class="card-head"><h3>Cách đọc số liệu</h3></div>
+  <div class="card-body">
+    <ul id="usageNotes" class="note-list"></ul>
+    <div class="table-wrap" style="margin-top:14px">
+      <table>
+        <thead><tr><th scope="col">Chỉ số</th><th scope="col">Nguồn upstream</th></tr></thead>
+        <tbody id="usageFields"></tbody>
+      </table>
+    </div>
+  </div>
+</section>

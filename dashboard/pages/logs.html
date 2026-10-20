@@ -1,0 +1,96 @@
+<div class="page-head">
+  <div>
+    <h2>Nhật ký request</h2>
+    <p>Mọi lần gọi đi qua cổng, kể cả request lỗi và request không phải chat. Thời gian theo giờ Việt Nam.</p>
+  </div>
+  <div class="spacer"></div>
+  <div class="chips">
+    <span class="chip" id="logsUpdated">đang đọc…</span>
+  </div>
+  <button type="button" class="secondary" id="logsExport">Xuất CSV</button>
+</div>
+
+<section class="card">
+  <div class="card-body">
+    <form id="logsFilter" class="filter-bar">
+      <div class="field">
+        <label for="logsFrom">Từ (giờ Việt Nam)</label>
+        <input id="logsFrom" type="datetime-local" step="60">
+      </div>
+      <div class="field">
+        <label for="logsTo">Đến (giờ Việt Nam)</label>
+        <input id="logsTo" type="datetime-local" step="60">
+      </div>
+      <div class="field">
+        <label for="logsOutcome">Kết quả</label>
+        <select id="logsOutcome">
+          <option value="all">Tất cả</option>
+          <option value="ok">Thành công</option>
+          <option value="saturated">Nghẽn (429)</option>
+          <option value="failed">Lỗi thật</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="logsAccount">Tài khoản</label>
+        <select id="logsAccount"><option value="">Tất cả</option></select>
+      </div>
+      <div class="field">
+        <label for="logsModel">Model</label>
+        <select id="logsModel"><option value="">Tất cả</option></select>
+      </div>
+      <div class="field">
+        <label for="logsProtocol">Giao thức</label>
+        <select id="logsProtocol">
+          <option value="">Tất cả</option>
+          <option value="chat">chat</option>
+          <option value="messages">messages</option>
+          <option value="responses">responses</option>
+        </select>
+      </div>
+      <div class="field field-search">
+        <label for="logsQuery">Tìm</label>
+        <input id="logsQuery" type="search" placeholder="request id, đường dẫn, mã lỗi…" autocomplete="off">
+      </div>
+      <div class="filter-actions">
+        <button type="submit">Lọc</button>
+        <button type="button" class="secondary" id="logsToday">Hôm nay</button>
+        <button type="button" class="secondary" id="logs24h">24 giờ</button>
+      </div>
+    </form>
+    <div class="chips" id="logsChips" style="margin-top:12px"></div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <div class="table-wrap detail-scroll">
+    <table class="logs-table">
+      <thead><tr>
+        <th scope="col">Thời gian</th>
+        <th scope="col">Kết quả</th>
+        <th scope="col">Model</th>
+        <th scope="col">Tài khoản</th>
+        <th scope="col">Giao thức</th>
+        <th scope="col">Đường dẫn</th>
+        <th scope="col" class="right">Retry</th>
+        <th scope="col" class="right">Input</th>
+        <th scope="col" class="right">Output</th>
+        <th scope="col" class="right">CW</th>
+        <th scope="col" class="right">CR</th>
+        <th scope="col" class="right">ms</th>
+        <th scope="col">Request</th>
+      </tr></thead>
+      <tbody id="logsRows"></tbody>
+    </table>
+    <p class="empty" id="logsEmpty" hidden>Không có request nào khớp bộ lọc.</p>
+  </div>
+  <div class="pager" id="logsPager" hidden></div>
+</section>
+
+<aside id="sheet" class="sheet" aria-hidden="true">
+  <div class="sheet-head">
+    <h3>Bản ghi request</h3>
+    <span class="spacer"></span>
+    <button type="button" class="secondary small" id="sheetClose">Đóng</button>
+  </div>
+  <pre id="sheetContent"></pre>
+</aside>

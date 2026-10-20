@@ -1,0 +1,14 @@
+All rights reserved.
+
+Copyright (c) 2026 Buddy API contributors.
+
+This repository is published for reference and personal deployment. No licence
+is granted to redistribute, sublicense, or offer it as a hosted service without
+written permission from the copyright holder.
+
+Third-party components keep their own licences:
+
+  - dsh-workbuddy-connect (MIT) — Copyright (c) 2026 Corrine Hu.
+    Used as an installed dependency; not vendored in this repository.
+  - @deepseek-ai/dsh-atomic-write, @deepseek-ai/dsh-home-paths — see their
+    respective package licences in the installed node_modules.

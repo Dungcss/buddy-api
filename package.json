@@ -1,0 +1,26 @@
+{
+  "name": "buddy-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OpenAI/Anthropic-compatible gateway for WorkBuddy AI accounts, with a multi-account dashboard.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "dashboard": "node dashboard/dashboard.mjs",
+    "build": "node dashboard/build-pages.mjs && node dashboard/build-release.mjs",
+    "test": "node --test tests/*.test.mjs dashboard/tests/*.test.mjs",
+    "test:gateway": "node --test tests/*.test.mjs",
+    "test:dashboard": "node --test dashboard/tests/*.test.mjs",
+    "check": "node --check server.mjs && node --check adapter.mjs && node --check apikeys.mjs && node --check usage.mjs"
+  },
+  "keywords": [
+    "openai-compatible",
+    "anthropic-compatible",
+    "gateway",
+    "workbuddy"
+  ],
+  "license": "UNLICENSED"
+}

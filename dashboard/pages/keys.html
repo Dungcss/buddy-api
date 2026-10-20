@@ -1,0 +1,200 @@
+<div class="page-head">
+  <div>
+    <h2>Quản lý khóa API</h2>
+    <p>Tạo và quản lý khóa để xác thực yêu cầu tới endpoint của bạn. Mỗi khóa có thể giới hạn model được phép gọi.</p>
+  </div>
+  <div class="spacer"></div>
+  <div class="chips">
+    <span class="chip" id="keysUpdated">đang đọc…</span>
+    <span class="chip" id="keysActive">– đang dùng</span>
+  </div>
+</div>
+
+<div class="steps" aria-label="Luồng sử dụng">
+  <span class="step-chip">Ứng dụng của bạn</span>
+  <span class="step-arrow" aria-hidden="true">→</span>
+  <span class="step-chip">Khóa API</span>
+  <span class="step-arrow" aria-hidden="true">→</span>
+  <span class="step-chip">Buddy</span>
+</div>
+
+<section class="card">
+  <div class="card-head">
+    <h3>Địa chỉ gọi</h3>
+    <span class="spacer"></span>
+    <span class="chip ok">OpenAI &amp; Anthropic compatible</span>
+  </div>
+  <div class="card-body">
+    <div class="endpoint-grid">
+      <div class="endpoint">
+        <span class="field-label">Base URL</span>
+        <div class="endpoint-row">
+          <code id="baseUrl">đang đọc…</code>
+          <button type="button" class="secondary small" data-copy="baseUrl">Sao chép</button>
+        </div>
+      </div>
+      <div class="endpoint">
+        <span class="field-label">Chat completions (OpenAI)</span>
+        <div class="endpoint-row">
+          <code id="endpointChat">—</code>
+          <button type="button" class="secondary small" data-copy="endpointChat">Sao chép</button>
+        </div>
+      </div>
+      <div class="endpoint">
+        <span class="field-label">Messages (Anthropic)</span>
+        <div class="endpoint-row">
+          <code id="endpointMessages">—</code>
+          <button type="button" class="secondary small" data-copy="endpointMessages">Sao chép</button>
+        </div>
+      </div>
+      <div class="endpoint">
+        <span class="field-label">Danh sách model</span>
+        <div class="endpoint-row">
+          <code id="endpointModels">—</code>
+          <button type="button" class="secondary small" data-copy="endpointModels">Sao chép</button>
+        </div>
+      </div>
+    </div>
+    <p class="caption">Chỉ dùng <code>https://</code>. Khóa gửi qua header <code>x-api-key</code> hoặc <code>Authorization: Bearer</code>, không đặt trong URL.</p>
+  </div>
+</section>
+
+<section class="card">
+  <div class="card-head">
+    <h3>Tạo khóa mới</h3>
+  </div>
+  <div class="card-body">
+    <form id="keyForm" class="filter-bar">
+      <div class="field field-search">
+        <label for="keyLabel">Tên gợi nhớ</label>
+        <input id="keyLabel" type="text" maxlength="60" placeholder="Ví dụ: app nội bộ, Cursor, script kiểm thử…" autocomplete="off">
+      </div>
+      <div class="filter-actions">
+        <button type="submit" id="keyCreate">Tạo khóa</button>
+      </div>
+    </form>
+    <div class="perm-picker" style="margin-top:14px">
+      <div class="perm-head">
+        <span class="field-label">Model được phép gọi</span>
+        <span class="chip" id="newKeyCount">tất cả</span>
+      </div>
+      <div class="chips" id="newKeyModes" role="group" aria-label="Phạm vi model">
+        <button type="button" class="chip" data-mode="all" aria-pressed="true">Tất cả model</button>
+        <button type="button" class="chip" data-mode="free" aria-pressed="false">Chỉ miễn phí</button>
+        <button type="button" class="chip" data-mode="pick" aria-pressed="false">Chọn từng model</button>
+      </div>
+      <div id="newKeyList" class="perm-list" hidden></div>
+    </div>
+    <p class="caption" id="keyNote" role="status" aria-live="polite">Đặt tên để sau này biết khóa nào của ứng dụng nào. Tối đa 25 khóa đang hoạt động.</p>
+
+    <div id="keyReveal" class="key-reveal" hidden>
+      <p class="key-reveal-title">Sao chép ngay — khóa chỉ hiện một lần</p>
+      <div class="key-reveal-row">
+        <code id="keyToken"></code>
+        <button type="button" class="secondary small" id="keyCopy">Sao chép</button>
+      </div>
+      <p class="caption">Dán vào ứng dụng rồi bấm “Đã lưu”. Khóa không được ghi vào log hay lưu lại trong trình duyệt.</p>
+      <button type="button" class="small" id="keyDismiss">Đã lưu, ẩn khóa</button>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <div class="card-head">
+    <h3>Khóa đã đăng ký</h3>
+    <span class="spacer"></span>
+    <span class="chip" id="keyCount">–</span>
+  </div>
+  <div class="card-body" style="padding-bottom:10px">
+    <div class="filter-bar">
+      <div class="field field-search">
+        <label for="keySearch">Tìm kiếm</label>
+        <input id="keySearch" type="search" placeholder="Tên hoặc phần khóa…" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="keyFilter">Trạng thái</label>
+        <select id="keyFilter">
+          <option value="all">Tất cả</option>
+          <option value="active">Đang hoạt động</option>
+          <option value="revoked">Đã thu hồi</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table class="keys-table">
+      <thead><tr>
+        <th scope="col">Tên</th>
+        <th scope="col">Khóa</th>
+        <th scope="col">Quyền</th>
+        <th scope="col" class="right" title="Số request trong 30 ngày gần nhất">30 ngày</th>
+        <th scope="col">Đã tạo</th>
+        <th scope="col">Trạng thái</th>
+        <th scope="col"></th>
+      </tr></thead>
+      <tbody id="keyRows"></tbody>
+    </table>
+  </div>
+  <p class="caption" id="keyEmpty" hidden style="padding:0 16px 14px">Chưa có khóa nào do dashboard tạo.</p>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <div class="card-head">
+    <h3>Khóa gốc</h3>
+    <span class="spacer"></span>
+    <span class="chip mute">không quản lý ở đây</span>
+  </div>
+  <div class="card-body">
+    <p class="caption" style="margin-top:0">Hai khóa dưới đây nằm trong <code>secrets/</code> và do quá trình triển khai quản lý. Chúng không bị giới hạn model.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Id trong log</th><th scope="col">Nguồn</th><th scope="col">Quyền</th></tr></thead>
+        <tbody id="keyBootstrap"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <div class="card-head"><h3>Hướng dẫn sử dụng</h3></div>
+  <div class="card-body">
+    <ol class="guide">
+      <li><b>Tạo khóa</b> ở trên, đặt tên theo ứng dụng sẽ dùng và chọn model được phép gọi.</li>
+      <li><b>Sao chép khóa</b> ngay khi hiện ra. Sau khi ẩn, khóa không thể xem lại — chỉ tạo khóa mới.</li>
+      <li><b>Dán base URL</b> <code id="guideBase">—</code> vào ứng dụng, rồi đặt khóa vào header <code>x-api-key</code>.</li>
+      <li><b>Chọn model</b> trong danh sách trả về từ <code>/v1/models</code>. Khóa bị giới hạn chỉ thấy các model đã cấp.</li>
+      <li><b>Theo dõi</b> cột “30 ngày” và trang <a href="__BASE__/logs">Nhật ký request</a>; thu hồi khóa ngay khi không còn dùng.</li>
+    </ol>
+
+    <div class="code-tabs" role="tablist" aria-label="Ví dụ gọi">
+      <button type="button" class="chip" data-tab="curl" aria-pressed="true">curl</button>
+      <button type="button" class="chip" data-tab="python" aria-pressed="false">Python</button>
+      <button type="button" class="chip" data-tab="node" aria-pressed="false">Node.js</button>
+      <button type="button" class="chip" data-tab="claude" aria-pressed="false">Anthropic</button>
+    </div>
+    <div class="code-block">
+      <pre id="guideCode">—</pre>
+    </div>
+    <p class="caption" id="guideNote">Ví dụ dùng khóa giả <code>buddy_sk_…</code>; thay bằng khóa bạn vừa tạo.</p>
+
+    <ul id="keyNotes" class="note-list" style="margin-top:16px"></ul>
+  </div>
+</section>
+
+<dialog id="permDialog" class="perm-dialog">
+  <form method="dialog" class="perm-dialog-body">
+    <h3 id="permTitle">Phân quyền model</h3>
+    <p class="caption" id="permHint">Khóa chỉ gọi được các model được chọn. Bỏ chọn hết nghĩa là khóa không gọi được model nào.</p>
+    <div class="chips" id="permModes">
+      <button type="button" class="chip" data-perm="all" aria-pressed="false">Tất cả model</button>
+      <button type="button" class="chip" data-perm="free" aria-pressed="false">Chỉ miễn phí</button>
+      <button type="button" class="chip" data-perm="none" aria-pressed="false">Không model nào</button>
+    </div>
+    <div id="permList" class="perm-list"></div>
+    <p class="caption" id="permCount">—</p>
+    <div class="perm-actions">
+      <button type="button" class="secondary" id="permCancel">Hủy</button>
+      <button type="button" id="permSave">Lưu quyền</button>
+    </div>
+  </form>
+</dialog>

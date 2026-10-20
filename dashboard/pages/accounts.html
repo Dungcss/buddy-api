@@ -1,0 +1,70 @@
+<div class="page-head">
+  <div>
+    <h2>Tài khoản dùng cho cổng</h2>
+    <p>Đăng nhập WorkBuddy trong tab trình duyệt để thêm tài khoản. Một lần đăng nhập dashboard là đủ cho mọi thao tác quản lý bên dưới.</p>
+  </div>
+</div>
+
+<section class="card">
+  <div class="card-head"><h3>Thêm tài khoản WorkBuddy</h3></div>
+  <div class="card-body">
+    <p class="caption" style="margin-top:0">Bấm đăng nhập, hoàn tất trong tab mới rồi quay lại đây. Không cần mở app WorkBuddy.</p>
+    <div class="login-controls" style="margin-top:12px">
+      <button id="startLogin" type="button">Đăng nhập tài khoản mới</button>
+      <a id="openLogin" class="link" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" hidden>Mở lại tab đăng nhập</a>
+      <button id="cancelLogin" type="button" class="secondary" hidden>Hủy đăng nhập</button>
+    </div>
+    <p class="caption" id="loginNote" role="status" aria-live="polite">Tài khoản mới sẽ xuất hiện bên dưới sau khi đăng nhập thành công.</p>
+    <details class="disclosure">
+      <summary>Chụp tài khoản từ app trên máy chủ</summary>
+      <p class="caption">Đăng nhập tài khoản trong app WorkBuddy trước, rồi đặt mã ngắn cho bản chụp và bấm chụp.</p>
+      <form id="captureForm" class="inline-form">
+        <label class="field" for="accountId">
+          <span class="field-label">Mã tài khoản</span>
+          <input id="accountId" name="id" placeholder="a, b, chinh…" pattern="[a-z0-9-]{1,24}" required>
+        </label>
+        <button type="submit">Chụp</button>
+      </form>
+      <p class="caption" id="captureNote"></p>
+    </details>
+  </div>
+</section>
+
+<section class="card" id="accountWarnings" hidden style="margin-top:18px">
+  <div class="card-head">
+    <h3>Cảnh báo tài khoản</h3>
+    <span class="spacer"></span>
+    <span class="chip warn" id="warningCount">–</span>
+  </div>
+  <div class="card-body">
+    <div id="warningList" class="warnings" role="status" aria-live="polite"></div>
+    <p class="caption">Danh sách chỉ để đối chiếu: không tài khoản nào bị tự động xóa hay gộp.</p>
+  </div>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <div class="card-head">
+    <h3>Tài khoản đã thêm</h3>
+    <span class="spacer"></span>
+    <span class="chip" id="accountCount">–</span>
+  </div>
+  <div class="card-body" style="padding-bottom:12px">
+    <div class="login-controls">
+      <button id="toggleRotation" type="button" class="secondary" disabled>Bật xoay vòng</button>
+      <p class="caption" id="rotationNote" role="status" aria-live="polite" style="margin:0">Đang đọc chế độ sử dụng…</p>
+    </div>
+    <p class="caption">429: nghỉ 1 → 2 → 4 → 8 → tối đa 15 phút, ưu tiên thời gian máy chủ yêu cầu. Bấm “Dùng” để chuyển sang một tài khoản.</p>
+  </div>
+  <div class="table-wrap">
+    <table class="accounts-table">
+      <thead><tr>
+        <th scope="col">Tài khoản</th><th scope="col">UID</th><th scope="col">UIN</th>
+        <th scope="col">Hạn đăng nhập</th><th scope="col">Trạng thái</th>
+        <th scope="col">Model</th><th scope="col"></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <p class="caption" id="empty" hidden style="padding:0 16px 14px">Chưa có tài khoản. Bấm “Đăng nhập tài khoản mới” để bắt đầu.</p>
+  <p class="caption" id="activeNote" style="padding:0 16px 14px">—</p>
+</section>

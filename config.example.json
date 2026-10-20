@@ -1,0 +1,25 @@
+{
+  "port": 3190,
+  "allowedHosts": [],
+  "publicBaseUrl": null,
+  "apiKeyFile": "secrets/api-key.txt",
+  "qaApiKeyFile": "secrets/qa-api-key.txt",
+  "dataDir": "data",
+  "accounts": {
+    "active": "live",
+    "entries": [
+      { "id": "live", "desktopAuthFile": null }
+    ],
+    "rotation": "round-robin"
+  },
+  "limits": {
+    "concurrency": 2,
+    "requestsPerMinute": 60,
+    "bodyBytes": 25165824,
+    "deadlineMs": 600000,
+    "nonStreamDeadlineMs": 120000,
+    "upstreamRetries": 5,
+    "queueSize": 8,
+    "queueWaitMs": 15000
+  }
+}

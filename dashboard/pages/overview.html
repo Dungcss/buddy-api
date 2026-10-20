@@ -1,0 +1,113 @@
+<div class="page-head">
+  <div>
+    <h2>Cổng AI đang chạy thế nào</h2>
+    <p>Số liệu đọc trực tiếp từ access log của gateway và trạng thái tiến trình. Tự cập nhật mỗi 60 giây.</p>
+  </div>
+  <div class="spacer"></div>
+  <div class="chips" id="overviewStamp">
+    <span class="chip" id="overviewUpdated">đang tải…</span>
+    <span class="chip" id="overviewTz">Asia/Saigon (UTC+07:00)</span>
+  </div>
+</div>
+
+<div class="tiles">
+  <div class="tile accent">
+    <span class="tile-label">Request hôm nay</span>
+    <span class="tile-value" id="requests">–</span>
+    <span class="tile-sub" id="requestsSub">từ 00:00 giờ Việt Nam</span>
+  </div>
+  <div class="tile">
+    <span class="tile-label">Tỷ lệ lỗi thật</span>
+    <span class="tile-value" id="errorRate">–</span>
+    <span class="tile-sub" id="errorSub">không gồm nghẽn 429</span>
+  </div>
+  <div class="tile">
+    <span class="tile-label">Tỷ lệ nghẽn (429)</span>
+    <span class="tile-value" id="saturatedRate">–</span>
+    <span class="tile-sub" id="saturatedSub">gateway chưa trả lời</span>
+  </div>
+  <div class="tile">
+    <span class="tile-label">Trung vị</span>
+    <span class="tile-value" id="p50">–</span>
+    <span class="tile-sub">ms / request</span>
+  </div>
+  <div class="tile">
+    <span class="tile-label">p95</span>
+    <span class="tile-value" id="p95">–</span>
+    <span class="tile-sub">ms / request</span>
+  </div>
+  <div class="tile">
+    <span class="tile-label">Đang xử lý</span>
+    <span class="tile-value" id="active">–</span>
+    <span class="tile-sub">so với hạn mức đồng thời</span>
+  </div>
+</div>
+
+<section class="card">
+  <div class="card-head">
+    <h3>Nhịp request · 60 phút gần nhất</h3>
+    <span class="spacer"></span>
+    <span class="chip" id="chartPeak">–</span>
+  </div>
+  <div class="card-body">
+    <figure class="chart" id="chart">
+      <svg id="chartSvg" viewBox="0 0 720 180" preserveAspectRatio="none" role="img" aria-label="Biểu đồ request theo phút"></svg>
+      <figcaption id="chartNote">60 phút gần nhất</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="card">
+  <div class="card-head">
+    <h3>Mười bốn ngày gần nhất</h3>
+    <span class="spacer"></span>
+    <span class="chip ok" id="daysOk">–</span>
+    <span class="chip bad" id="daysBad">–</span>
+  </div>
+  <div class="card-body">
+    <ol id="days" class="bars"></ol>
+    <p class="caption" id="daysNote">Chiều dài thanh là số request; phần đỏ là lỗi thật. “Nghẽn” là request bị từ chối do hết chỗ chờ hoặc hết hạn mức, không phải lỗi hệ thống.</p>
+  </div>
+</section>
+
+<div class="split" style="margin-top:18px">
+  <section class="card">
+    <div class="card-head"><h3>Mã phản hồi</h3></div>
+    <div class="card-body"><dl id="codes" class="kv"></dl></div>
+  </section>
+  <section class="card">
+    <div class="card-head"><h3>Khóa gọi</h3></div>
+    <div class="card-body">
+      <dl id="keys" class="kv"></dl>
+      <p class="caption" id="upstream">–</p>
+    </div>
+  </section>
+</div>
+
+<section class="card">
+  <div class="card-head">
+    <h3>Request gần đây</h3>
+    <span class="spacer"></span>
+    <span class="chip" id="recentCount">–</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th scope="col">Lúc</th><th scope="col">Khóa</th><th scope="col">Đường dẫn</th>
+        <th scope="col">Model</th><th scope="col" class="right">HTTP</th>
+        <th scope="col" class="right">ms</th><th scope="col">Request</th>
+      </tr></thead>
+      <tbody id="recent"></tbody>
+    </table>
+  </div>
+  <p class="caption" style="padding:0 16px 14px">Chọn một dòng để xem bản ghi đầy đủ. Thời gian theo giờ Việt Nam.</p>
+</section>
+
+<aside id="sheet" class="sheet" aria-hidden="true">
+  <div class="sheet-head">
+    <h3>Bản ghi request</h3>
+    <span class="spacer"></span>
+    <button type="button" class="secondary small" id="sheetClose">Đóng</button>
+  </div>
+  <pre id="sheetContent"></pre>
+</aside>

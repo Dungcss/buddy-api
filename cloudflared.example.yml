@@ -1,0 +1,16 @@
+# Cloudflare Tunnel ingress for a single hostname that serves both the API and
+# the dashboard. Replace the tunnel id and credentials path with your own:
+#   cloudflared tunnel create buddy-api
+#   cloudflared tunnel route dns buddy-api api.example.com
+#
+# The dashboard rule carries no hostname on purpose: it is matched by path after
+# the hostname rule, so one tunnel can expose both without a second hostname.
+tunnel: REPLACE-WITH-YOUR-TUNNEL-ID
+credentials-file: /etc/cloudflared/REPLACE-WITH-YOUR-TUNNEL-ID.json
+metrics: 127.0.0.1:0
+ingress:
+  - path: ^/dashboard
+    service: http://127.0.0.1:3191
+  - hostname: api.example.com
+    service: http://127.0.0.1:3190
+  - service: http_status:404

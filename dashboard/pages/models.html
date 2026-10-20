@@ -1,0 +1,77 @@
+<div class="page-head">
+  <div>
+    <h2>Model catalog</h2>
+    <p>Toàn bộ model cổng đang phục vụ, tách miễn phí và trả phí. Ngữ cảnh hiển thị là mức tối đa model nhận, không phải mức mặc định.</p>
+  </div>
+  <div class="spacer"></div>
+  <button type="button" class="secondary" id="modelsRefresh">Làm mới</button>
+</div>
+
+<div class="chips" id="modelStamp" style="margin-bottom:14px">
+  <span class="chip" id="modelTotal">đang đọc catalog…</span>
+  <span class="chip ok" id="modelFreeChip">– miễn phí</span>
+  <span class="chip" id="modelPaidChip">– trả phí</span>
+  <span class="chip mute" id="modelGptChip">GPT đã loại</span>
+</div>
+
+<section class="card">
+  <div class="card-body">
+    <div class="filter-bar">
+      <div class="field" style="grid-column:span 2">
+        <label for="modelSearch">Tìm kiếm</label>
+        <input id="modelSearch" type="search" placeholder="Tên model, mã model hoặc capability…" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="modelType">Loại</label>
+        <select id="modelType">
+          <option value="">Tất cả</option>
+          <option value="free">Miễn phí</option>
+          <option value="paid">Trả phí</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="modelContext">Ngữ cảnh</label>
+        <select id="modelContext">
+          <option value="">Mọi mức</option>
+          <option value="1000000">1M trở lên</option>
+          <option value="500000">500K trở lên</option>
+          <option value="256000">256K trở lên</option>
+        </select>
+      </div>
+    </div>
+    <div class="chips" id="modelColumns" style="margin-top:12px">
+      <span class="field-label" style="align-self:center">Cột</span>
+      <button type="button" class="chip" data-col="context" aria-pressed="true">Ngữ cảnh</button>
+      <button type="button" class="chip" data-col="output" aria-pressed="true">Output</button>
+      <button type="button" class="chip" data-col="price" aria-pressed="true">Giá</button>
+      <button type="button" class="chip" data-col="caps" aria-pressed="true">Capabilities</button>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <div class="card-head">
+    <h3>Toàn bộ model</h3>
+    <span class="spacer"></span>
+    <span class="chip" id="modelShown">–</span>
+  </div>
+  <div class="table-wrap">
+    <table class="model-table" id="modelTable">
+      <thead><tr>
+        <th scope="col">Model</th>
+        <th scope="col">Loại</th>
+        <th scope="col" class="right" data-col="context">Ngữ cảnh max</th>
+        <th scope="col" class="right" data-col="output">Output max</th>
+        <th scope="col" class="right" data-col="price">Giá</th>
+        <th scope="col" data-col="caps">Capabilities</th>
+      </tr></thead>
+      <tbody id="modelRows"></tbody>
+    </table>
+  </div>
+  <p class="caption" style="padding:0 16px 14px">Miễn phí: upstream báo <code>billing.free = true</code> (x0.00 credit). Trả phí: mỗi lần gọi trừ credit của tài khoản WorkBuddy đang dùng.</p>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <div class="card-head"><h3>Cách đọc catalog</h3></div>
+  <div class="card-body"><ul id="modelNotes" class="note-list"></ul></div>
+</section>
